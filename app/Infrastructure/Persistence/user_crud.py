@@ -25,21 +25,25 @@ class UserCrud(UserRepository):
         return UserResponseModel(**_user.model_dump())
     
     @staticmethod
-    def get_by_id(self, id: int, db: Session) -> UserResponseModel:
+    def get_by_id( id: int, db: Session) -> UserResponseModel:
         pass
 
     @staticmethod
-    def get_by_email(self, email: str, db: Session) -> UserResponseModel:
+    def get_by_email(email: str, db: Session) -> UserResponseModel:
         pass
 
     @staticmethod
-    def find_all(self, db: Session) -> list[UserResponseModel]:
+    def find_all(db: Session) -> list[UserResponseModel]:
+        try:
+            _users = db.query(User).all()
+            return [UserResponseModel(**_user.model_dump()) for _user in _users]
+        except ValueError as e:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+    @staticmethod
+    def update(id: int, user: UserRequestModel, db: Session) -> UserResponseModel:
         pass
 
     @staticmethod
-    def update(self, id: int, user: UserRequestModel, db: Session) -> UserResponseModel:
-        pass
-
-    @staticmethod
-    def delete(self, id: int, db: Session) -> None:
+    def delete(id: int, db: Session) -> None:
         pass    
