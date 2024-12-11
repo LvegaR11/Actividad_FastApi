@@ -14,3 +14,15 @@ class Visit(Base):
     visit_date: Mapped[str] = mapped_column(DateTime, default=datetime.now(timezone.utc))
 
     use: Mapped['User'] = relationship() 
+
+    def model_dump(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'last_name': self.last_name,
+            'role': self.role,
+            'email': self.email,
+            'phone': self.phone,
+            'status': self.status,
+            'created_at': self.created_at.__str__()
+            }
