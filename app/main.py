@@ -1,7 +1,10 @@
 from fastapi import FastAPI, APIRouter
 from app.Routers import user_router, visit_router 
+import os
 
-app = FastAPI(create_tmp_folder=False)
+os.environ["FASTAPI_DISABLE_TMP_FOLDER"] = "1"
+
+app = FastAPI()
 
 api_v1 = APIRouter(prefix = "/api/v1")
 app.include_router(user_router)
