@@ -21,7 +21,8 @@ class VisitRequestModel(BaseModel):
             'location': 'casa',
             'duration': 10,
             'number_of_persons': 2,
-            'visit_date': '2023-01-01'  
+            'visit_date': '2023-01-01', 
+            'user_id': 1
             }
         })
     
@@ -48,5 +49,6 @@ class VisitToUpdateModel(BaseModel):
                 'duration': None,
                 'number_of_persons': None,
                 'visit_date': None
+                
         }
     })
