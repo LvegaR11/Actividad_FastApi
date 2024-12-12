@@ -9,9 +9,12 @@ visit_router = APIRouter(
     tags=["visit"]
 )
 
-@visit_router.post("", status_code=status.HTTP_201_CREATED)
-async def create_visit(visit: VisitRequestModel, db: Session = Depends(get_db)):
-    visit_response = VisitService.create(visit, db)
+@visit_router.post("/", status_code=status.HTTP_201_CREATED)
+async def create_visit(visit_request: VisitRequestModel, db: Session = Depends(get_db)):
+    visit_service = VisitService()
+    visit_response = visit_service.create(visit_request.id, visit_request.location, visit_request.duration, 
+                                          visit_request.number_of_persons, visit_request.visit_date, 
+                                          visit_request.user_id, db)
     return visit_response
 
 @visit_router.get("", status_code=status.HTTP_200_OK)

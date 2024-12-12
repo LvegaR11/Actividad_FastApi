@@ -8,10 +8,10 @@ class VisitService:
     visit_repository = VisitCrud()
 
     @classmethod
-    def create(self, visit: VisitRequestModel, db: Session) -> VisitResponseModel:
-        visit_response = self.visit_repository.create(visit, db)
+    def create(self, id: int | None, location: str, duration: float, number_of_persons: int, visit_date: str, user_id: int, db: Session) -> VisitResponseModel:
+        visit_response = self.visit_repository.create(VisitRequestModel(id=id, location=location, duration=duration, number_of_persons=number_of_persons, visit_date=visit_date, user_id=user_id), user_id, db)
         return visit_response
-
+    
     @classmethod
     def find_all(self, db: Session) -> list[VisitResponseModel]:
         visits = self.visit_repository.find_all(db)

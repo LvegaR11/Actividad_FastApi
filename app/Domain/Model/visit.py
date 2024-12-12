@@ -1,5 +1,5 @@
 from app.Infrastructure.Database import Base
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import DateTime, Integer, String, FLOAT, ForeignKey
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from app.Domain.Model.user import User
@@ -13,16 +13,14 @@ class Visit(Base):
     number_of_persons: Mapped[int] = mapped_column(Integer)
     visit_date: Mapped[str] = mapped_column(DateTime, default=datetime.now(timezone.utc))
 
-    use: Mapped['User'] = relationship() 
+    ##use: Mapped['User'] = relationship() 
 
     def model_dump(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'last_name': self.last_name,
-            'role': self.role,
-            'email': self.email,
-            'phone': self.phone,
-            'status': self.status,
-            'created_at': self.created_at.__str__()
+            'user_id': self.user_id,
+            'location': self.location,
+            'duration': self.duration,
+            'number_of_persons': self.number_of_persons,
+            'visit_date': self.visit_date.__str__()
             }
