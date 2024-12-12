@@ -58,12 +58,12 @@ class UserCrud(UserRepository):
             _user = db.query(User).filter(User.id == id).first()
             if not _user:
                 raise ValueError(f"No existe el usuario con id {id}")
-            _user.name = user.name
-            _user.last_name = user.last_name
-            _user.role = user.role
-            _user.email = user.email
-            _user.phone = user.phone
-            _user.status = user.status
+            _user.name = user.name if user.name else _user.name
+            _user.last_name = user.last_name if user.last_name else _user.last_name
+            _user.role = user.role if user.role else _user.role
+            _user.email = user.email if user.email else _user.email
+            _user.phone = user.phone if user.phone else _user.phone
+            _user.status = user.status if user.status else _user.status
             db.commit()
             return UserResponseModel(**_user.model_dump())
         except ValueError as e:

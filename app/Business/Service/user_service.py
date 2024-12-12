@@ -1,6 +1,6 @@
 
 from sqlalchemy.orm import Session
-from app.Domain.Schemas.user_schema import UserRequestModel, UserResponseModel
+from app.Domain.Schemas.user_schema import UserRequestModel, UserResponseModel, UserToUpdateModel
 from app.Infrastructure.Persistence import UserCrud
 
 
@@ -33,6 +33,6 @@ class UserService:
         user = self.user_repository.get_by_id(id, db)
         return user
     @classmethod
-    def update(self, id: int, user: UserRequestModel, db: Session) -> UserResponseModel:
+    def update(self, id: int, user: UserToUpdateModel, db: Session) -> UserResponseModel:
         user_response = self.user_repository.update(id, user, db)
         return user_response

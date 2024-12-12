@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from sqlalchemy.orm import Session
-from app.Domain.Schemas.user_schema import UserRequestModel, UserResponseModel
+from app.Domain.Schemas.user_schema import UserRequestModel, UserResponseModel, UserToUpdateModel
 
 
 
@@ -22,7 +22,7 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, id: int, user: UserRequestModel, db: Session) -> UserResponseModel:
+    def update(self, id: int, user: UserToUpdateModel, db: Session) -> UserResponseModel:
         pass
 
     @abstractmethod

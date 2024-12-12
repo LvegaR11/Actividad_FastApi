@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.orm import Session
-from app.Domain.Schemas.user_schema import UserRequestModel
+from app.Domain.Schemas.user_schema import UserRequestModel, UserToUpdateModel
 from app.Infrastructure.Database import get_db
 from app.Business.Service.user_service import UserService
 
@@ -38,7 +38,7 @@ async def delete_user(id: int, db: Session = Depends(get_db)):
     return response
 
 @user_router.put("/{id}", status_code=status.HTTP_200_OK)
-async def update_user(id: int, user: UserRequestModel, db: Session = Depends(get_db)):
+async def update_user(id: int, user: UserToUpdateModel, db: Session = Depends(get_db)):
     user_response = UserService.update(id, user, db)
     return user_response
 
