@@ -30,7 +30,7 @@ async def find_user_by_id(id: int, db: Session = Depends(get_db)):
     user = UserService.user_by_id(id, db)
     return user
 
-@user_router.get("/{email}", status_code=status.HTTP_200_OK)
+@user_router.get("/email/{email}", status_code=status.HTTP_200_OK)
 async def find_user_by_email(email: str, db: Session = Depends(get_db)):
     user = UserService.user_by_email(email, db)
     return user

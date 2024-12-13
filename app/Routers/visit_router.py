@@ -49,7 +49,7 @@ async def get_pdf(user_id: int, db: Session = Depends(get_db)):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 16)
-    pdf.cell(40, 10, 'Reporte de Visitas del usuario', 0, 0, 'C')
+    pdf.cell(40, 10, 'Visitas del usuario', 0, 1, 'C')
     pdf.ln(20)
 
     for visit in visits:
