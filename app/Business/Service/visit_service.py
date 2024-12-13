@@ -18,6 +18,11 @@ class VisitService:
         return visits
     
     @classmethod
+    def find_all(self, db: Session) -> list[VisitResponseModel]:
+        visits = self.visit_repository.find_all(db)
+        return visits
+
+    @classmethod
     def delete(self, id: int, db: Session) -> str:
         self.visit_repository.delete(id, db)
         return f"Visita con id {id} eliminado correctamente"
@@ -26,3 +31,8 @@ class VisitService:
     def update(self, id: int, visit: VisitToUpdateModel, db: Session) -> VisitResponseModel:
         visit_response = self.visit_repository.update(id, visit, db)
         return visit_response
+    
+    @classmethod
+    def get_pdf(self, user_id: int, db: Session) -> bytes:
+        visits = self.visit_repository.get_pdf(user_id, db)
+        return visits

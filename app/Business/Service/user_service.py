@@ -32,7 +32,13 @@ class UserService:
     def user_by_id(self, id: int, db: Session) -> UserResponseModel:
         user = self.user_repository.get_by_id(id, db)
         return user
+    
     @classmethod
     def update(self, id: int, user: UserToUpdateModel, db: Session) -> UserResponseModel:
         user_response = self.user_repository.update(id, user, db)
         return user_response
+    
+    @classmethod
+    def get_pdf(self, db: Session) -> bytes:
+        users = self.user_repository.get_pdf(db)
+        return users

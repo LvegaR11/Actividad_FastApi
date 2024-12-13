@@ -1,3 +1,4 @@
+from fpdf import FPDF
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.Domain.Model.user import User
@@ -49,6 +50,18 @@ class VisitCrud (VisitRepository):
         except Exception as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
         
+
+    @staticmethod
+    def find_all(db: Session) -> list[VisitResponseModel]:
+        try:
+            _visits = db.query(Visit).all()
+            if not _visits:
+                raise ValueError(f"No existen visitas")
+            return [VisitResponseModel(**_visit.model_dump()) for _visit in _visits]
+        
+        except ValueError as e:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        
     @staticmethod
     def delete(id: int, db: Session) -> None:
         try:
@@ -77,3 +90,25 @@ class VisitCrud (VisitRepository):
         except ValueError as e:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        
+
+    @staticmethod
+    def get_pdf(user_id: int, db: Session) -> bytes:
+        try:
+            _visits = db.query(Visit).filter(Visit.user_id == user_id).all()
+            if not _visits:
+                raise ValueError(f"No existe ninguna visita con el usuario con id {user_id}")
+            pdf = FPDF()
+            pdf.add_page()
+            pdf.set_font('Arial', 'B', 16)
+            pdf.cell(40, 10, 'Visitas del usuario', 0, 0, 'C')
+            pdf.ln(20)
+            for visit in _visits:
+                pdf.set_font('Arial', '', 12)
+                pdf.cell(40, 6, f'Visita: {visit.id} - {visit.location} - {visit.duration} - {visit.number_of_persons} - {visit.visit_date}', 0, 0, 'L')
+                pdf.ln(10)
+            return pdf.output('F')
+        
+        except ValueError as e:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+      

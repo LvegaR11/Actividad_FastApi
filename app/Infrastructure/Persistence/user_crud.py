@@ -1,3 +1,4 @@
+from fpdf import FPDF
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.Contracts.user_repository import UserRepository
@@ -80,4 +81,24 @@ class UserCrud(UserRepository):
             db.commit()
         except ValueError as e:
             db.rollback()
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        
+    @staticmethod
+    def get_pdf(db: Session) -> bytes:
+        try:
+            _users = db.query(User).all()
+            if not _users:
+                raise ValueError(f"No existen usuarios")
+            pdf = FPDF()
+            pdf.add_page()
+            pdf.set_font('Arial', 'B', 16)
+            pdf.cell(40, 10, 'Usuarios', 0, 0, 'C')
+            pdf.ln(20)
+            for user in _users:
+                pdf.set_font('Arial', '', 12)
+                pdf.cell(40, 6, f'Usuario: {user.id} - {user.name} - {user.last_name} - {user.role} - {user.email} - {user.phone} - {user.status}', 0, 0, 'L')
+                pdf.ln(10)
+            return _users
+        
+        except ValueError as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

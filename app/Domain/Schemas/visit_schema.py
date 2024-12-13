@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict, Field, validator
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 class VisitRequestModel(BaseModel):
@@ -28,7 +28,7 @@ class VisitRequestModel(BaseModel):
     
 
 class VisitResponseModel(BaseModel):
-
+    id: int
     location: str
     duration: float
     number_of_persons: int
